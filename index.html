@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>ToDo App</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- MD Bootstrap Core -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.3/css/mdb.min.css" rel="stylesheet">
+
+    <!-- Datepicker -->
+    <link href="inc/datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+    <!-- Feuille de style perso -->
+    <link href="css/style.css" rel="stylesheet">
+
+
+
+</head>
+
+
+<body ng-app="myTodoApp" ng-controller="LEController">
+
+
+<nav class="navbar navbar-expand-lg navbar-dark  " style="background-color: #008577">
+    <a class="navbar-brand" href="#" style="display: inline;">Projet ToDo</a>
+    <span class="navbar-nav flex-row ml-md-auto d-none d-md-flex" style="display: inline-block;">
+             <button class="btn btn-outline-light btn-sm" ng-click="saveTodos()" style="display: inline-block;">Sauvegarder <i class="fa fa-save"></i></button>
+             <button class="btn btn-outline-light btn-sm" ng-click="getTodos()" style="display: inline-block;">Récuperer <i class="fa fa-download"></i></button>
+         </span>
+</nav>
+
+
+<div class="container">
+
+    <!---------------------->
+    <!-- Liste des tâches -->
+    <!---------------------->
+
+    <br style="height: 12em;">
+
+
+    <div id="idDivTodoList" ng-repeat="todo in todos">
+
+        <div class="card">
+            <div class="card-header">
+
+                <h5 class="card-title" style="display: inline;">{{todo.nomTache}}</h5>
+
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label for="dateTache">Date </label>
+                        <p class="card-text" id="dateTache">{{todo.dateTache}}</p>
+                    </div>
+                    <div class="col">
+                        <label for="heureDebut">Heure de début </label>
+                        <p class="card-text" id="heureDebut">{{todo.heureTache}}</p>
+                    </div>
+                    <div class="col">
+                        <label for="duree">Durée </label>
+                        <p class="card-text" id="duree">{{todo.dureeTache}}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <label for="context">Contexte </label>
+                        <p class="card-text" id="context">{{todo.contexteTache}}</p>
+                    </div>
+                    <div class="col">
+                        <label for=""></label>
+
+                        <div class="custom-control custom-switch" style="padding-top: .42em;">
+                            <input type="checkbox" class="custom-control-input" id="idSwitch" disabled ng-model="todo.prioritaire">
+                            <label class="custom-control-label" for="idSwitch">Prioritaire</label>
+                        </div>
+                    </div>
+                    <div class="col">
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Lien utile </label>
+                        <p class="card-text">{{todo.lienTache}}</p>
+                    </div>
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <button type="button" name="button" ng-click="removeToDo($index) "
+                                class="btn btn-outline-danger btn-sm float-right">Supprimer <i class="fa fa-times"></i></button>
+                        <button type="button" name="button" ng-click="modifTodo($index)"
+                                class="btn btn-outline-info btn-sm float-right">Modifier <i class="fa fa-pencil-alt"></i></button>
+                    </div>
+                </div>
+            <!-- ./card-body -->
+            </div>
+
+            <!-- ./card -->
+        </div>
+
+        <br>
+        <br>
+
+        <hr>
+
+        <br>
+        <br>
+    </div>
+
+
+    <!----------------------------->
+    <!-- Création nouvelle tâche -->
+    <!----------------------------->
+
+    <div class="" id="idDivAddTodo">
+        <form ng-submit="addTodo()">
+            <div class="form-group">
+
+                <div class="row">
+                    <div class="col">
+                        <div class="md-form md-outline">
+                            <label for="idInNom">Nom</label>
+                            <input class="form-control" type="text" name="task_name" id="idInNom" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="md-form md-outline">
+                            <label for="idInDate">Date</label>
+                            <input class="form-control" id="idInDate" type="text" name="task_date"
+                                   data-provide="datepicker" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="md-form md-outline">
+                            <label for="idInDuree">Durée (en minutes)</label>
+                            <input class="form-control" id="idInDuree" type="number" name="task_lenght" required>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="md-form md-outline">
+                            <label for="idInHeureDebut">Heure de début</label>
+                            <input id="idInHeureDebut" class="form-control" type="text" name="task_start_hour" required>
+                        </div>
+                    </div>
+                    <div class="col" style="padding-top: 1.5em;">
+                        <select id="idInContexte" class="custom-select" size="3" name="task_context"
+                                style="color : #757575;" required>
+                            <option value="Bureau">Bureau</option>
+                            <option value="Jardin">Jardin</option>
+                            <option value="Jardin">Ordinateur</option>
+                            <option value="Jardin">Maison</option>
+                            <option value="Jardin">Téléphone</option>
+                            <option value="Jardin">Magasin</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="idInPrioritaire"
+                                   ng-model="newPrioritaire">
+                            <label class="custom-control-label" for="idInPrioritaire">Prioritaire</label>
+                        </div>
+                    </div>
+                    <div class="col">
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="md-form md-outline">
+                            <label for="idInLien">Lien</label>
+                            <input id="idInLien" class="form-control" type="url" name="task_url"
+                                   title="L'URL doit commencer par https ou http">
+                        </div>
+                    </div>
+                    <div class="col">
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <button id="idInButonAnnuler" type="button" name="button" ng-click="supprChamps()"
+                                class="btn btn-outline-info">ANNULER
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button id="idInButonValider" type="submit" name="button" class="btn btn-outline teal darken-1">
+                            VALIDER
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.7.7/angular-cookies.min.js"></script>
+<script src="js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<!-- MDB core JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.3/js/mdb.min.js"></script>
+<script src="inc/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="inc/datepicker/locales/bootstrap-datepicker.fr.min.js"></script>
+</body>
+</html>
